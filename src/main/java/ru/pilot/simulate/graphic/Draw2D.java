@@ -32,8 +32,9 @@ public class Draw2D extends Application {
     int pWidth = 500;
     int pHeight = 700;
     int blockSize = 50;
+    private final Group place = new Group();
     
-    @Override
+    //@Override
     public void start(Stage stage) {
         Group p = new Group();
         Scene scene = new Scene(p);
@@ -41,15 +42,17 @@ public class Draw2D extends Application {
         stage.setWidth(1200);
         stage.setHeight(800);
 
-        Group place = new Group();
+        
         Group pict = new Group();
-        Group control = new Group();
+        Group sizeControl = new Group();
+        Group colorControl = new Group();
         p.getChildren().add(pict);
-        p.getChildren().add(control);
+        p.getChildren().add(sizeControl);
+        p.getChildren().add(colorControl);
         p.getChildren().add(place);
         
         pict(pict);
-        control(control, place);
+        sizeControl(sizeControl, place);
         
         generateByPict(pWidth, pHeight, place, blockSize);
 
@@ -73,7 +76,7 @@ public class Draw2D extends Application {
         stage.show();
     }
 
-    private void control(Group control, Group place) {
+    private void sizeControl(Group control, Group place) {
         Button btn = new Button("Кнопка");
         control.getChildren().add(btn);
         btn.setLayoutX(550);
@@ -213,9 +216,9 @@ public class Draw2D extends Application {
         return Color.rgb(rndCol(), rndCol(), rndCol());
     }
 
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
+    //public static void main(String[] args) {
+    //    Application.launch(args);
+    //}
     
     private int rndCol(){
         return rnd.nextInt(255);
