@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" prefHeight="643.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.pilot.pathwork.potholder.PotholderController">
+         <children>
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="948.0" text="Макет" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+      <AnchorPane prefHeight="490.0" prefWidth="700.0">
+         <children>
+            <BorderPane layoutX="14.0" layoutY="39.0" prefHeight="426.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <left>
+                  <VBox alignment="TOP_CENTER" prefHeight="490.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+                     <children>
+                              <Label prefHeight="20.0" prefWidth="57.0" text="Блоки">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                              </Label>
+                        <Button fx:id="genButton" mnemonicParsing="false" onAction="#getButtonClick" prefHeight="30.0" prefWidth="143.0" text="Генерация блоков" />
+                        <Accordion fx:id="sizeAccordion" prefHeight="409.0" prefWidth="202.0">
+                          <panes>
+                            <TitledPane fx:id="sizeAccordionPane" animated="false" text="Размеры">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="200.0">
+                                       <children>
+                                                <Pane fx:id="smallSidePane" layoutX="21.0" layoutY="-41.0" prefHeight="180.0" prefWidth="180.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </TitledPane>
+                            <TitledPane animated="false" text="Виды блоков">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox fx:id="blockTypePane" layoutX="14.0" layoutY="14.0" prefHeight="292.0" prefWidth="172.0" spacing="10.0">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </TitledPane>
+                            <TitledPane animated="false" text="Примеры">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ScrollPane prefHeight="318.0" prefWidth="200.0">
+                                             <content>
+                                                <VBox prefWidth="160.0" spacing="10.0">
+                                                   <padding>
+                                                      <Insets left="10.0" top="10.0" />
+                                                   </padding>
+                                                   <children>
+                                                      <Button mnemonicParsing="false" text="Пересоздать" />
+                                                      <VBox fx:id="simpleBlockPane" prefWidth="160.0" spacing="10.0" />
+                                                   </children>
+                                                </VBox>
+                                             </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </TitledPane>
+                              <TitledPane animated="false" text="Паттерн">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox layoutX="14.0" layoutY="14.0" prefHeight="263.0" prefWidth="173.0" spacing="10.0">
+                                             <children>
+                                                <RadioButton fx:id="randomPatternRB" mnemonicParsing="false" text="Случайно" />
+                                                <RadioButton fx:id="sectorPatternRB" mnemonicParsing="false" text="Сектор" />
+                                                <RadioButton fx:id="crossPatternRB" mnemonicParsing="false" selected="true" text="Крест" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </TitledPane>
+                          </panes>
+                        </Accordion>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
+               </left>
+               <right>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Цвета">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" text="Генерация цвета" />
+                        <Button mnemonicParsing="false" onAction="#debugWindow" text="O" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
+               </right>
+               <center>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Pane fx:id="bigSidePane" prefHeight="450.0" prefWidth="450.0" />
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+         </children>
+      </VBox>

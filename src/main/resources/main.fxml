@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.pilot.pathwork.MainController">
+   <top>
+      <Pane prefHeight="39.0" prefWidth="960.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="10.0" text="Patchwork 0.1" />
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <TabPane prefHeight="549.0" prefWidth="364.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Цвета">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <VBox prefHeight="523.0" prefWidth="362.0">
+                           <children>
+                              <HBox prefHeight="30.0" prefWidth="185.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="112.0" text="Кол-во цветов">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="colorCountTextField" prefHeight="30.0" prefWidth="46.0" text="5" />
+                                    <Button fx:id="colorCountUpButton" mnemonicParsing="false" prefHeight="59.0" prefWidth="19.0" text="↑">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="colorCountDownButton" mnemonicParsing="false" prefHeight="57.0" prefWidth="19.0" text="↓">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <Accordion fx:id="colorAccordion" prefHeight="419.0" prefWidth="362.0">
+                                <panes>
+                                  <TitledPane fx:id="randomTitledPane" animated="false" text="Случайно">
+                                       <content>
+                                          <VBox prefHeight="136.0" prefWidth="360.0" />
+                                       </content>
+                                  </TitledPane>
+                                  <TitledPane fx:id="byPictureTitledPane" animated="false" text="По картинке">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                                             <children>
+                                                <HBox prefHeight="33.0" prefWidth="355.0" spacing="5.0">
+                                                   <children>
+                                                      <Button fx:id="byPictureButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="137.0" text="Выбрать картинку" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <ImageView fx:id="byPictureImageView" fitHeight="239.0" fitWidth="349.0" onMouseClicked="#drawPatchwork" pickOnBounds="true" preserveRatio="true" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </content>
+                                  </TitledPane>
+                                  <TitledPane fx:id="inColorBalanceTitledPane" animated="false" text="InColorBalance">
+                                       <content>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                             <children>
+                                                <ListView fx:id="colorSetListView" layoutY="-33.0" onMouseClicked="#drawPatchwork" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                  </TitledPane>
+                                    <TitledPane fx:id="ownColorTitledPane" animated="false" text="Свои цвета">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <HBox prefHeight="42.0" prefWidth="338.0" spacing="5.0">
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                   <children>
+                                                      <ColorPicker />
+                                                      <ColorPicker />
+                                                      <ColorPicker />
+                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="0.0" text="+" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+          </Tab>
+          <Tab text="Основа">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <HBox prefHeight="18.0" prefWidth="357.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefHeight="9.0" prefWidth="362.0" spacing="5.0">
+                           <children>
+                              <Button fx:id="templatePictureButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" text="Выбрать" />
+                              <Button mnemonicParsing="false" onAction="#clearTemplate" text="Убрать" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <ImageView fx:id="templatePictureImageView" fitHeight="217.0" fitWidth="350.0" onMouseClicked="#drawPatchwork" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="rotateImageView" fitHeight="201.0" fitWidth="352.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </left>
+   <right>
+      <Pane prefHeight="560.0" prefWidth="43.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox layoutX="6.0" layoutY="444.0" prefHeight="22.0" prefWidth="497.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label text="Блок" />
+                  <Slider fx:id="blockSizeSlider" blockIncrement="5.0" max="50.0" min="5.0" value="25.0" />
+                  <Label text="  W" />
+                  <Slider fx:id="wSlider" blockIncrement="50.0" max="1000.0" min="100.0" prefHeight="17.0" prefWidth="103.0" value="500.0" />
+                  <Label text="   H" />
+                  <Slider fx:id="hSlider" blockIncrement="50.0" max="1000.0" min="100.0" prefHeight="17.0" prefWidth="102.0" value="400.0" />
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <Pane fx:id="patchworkPane" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: green;" />
+         </children>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <HBox prefHeight="20.0" prefWidth="960.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Блок:" />
+            <Label text="⬍" />
+            <Label fx:id="hBlockSizeLabel" text="25" />
+            <Label text="⬌" />
+            <Label fx:id="wBlockSizeLabel" text="25" />
+            <Label text="    W:" />
+            <Label fx:id="wLabel" text="400" />
+            <Label text="H:" />
+            <Label fx:id="hLabel" text="600" />
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>

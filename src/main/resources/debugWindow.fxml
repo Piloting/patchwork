@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="550" maxWidth="650" minHeight="550" minWidth="650" prefHeight="550.0" prefWidth="650.0"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <!--      fx:controller="ru.pilot.pathwork.debug.DebugController"-->
+
+   <Pane fx:id="leftTopPane" layoutX="44.0" layoutY="28.0" prefHeight="243.0" prefWidth="280.0"
+         style="-fx-border-color: black;"/>
+   <Pane fx:id="rightTopPane" layoutX="339.0" layoutY="28.0" prefHeight="243.0" prefWidth="280.0"
+         style="-fx-border-color: black;"/>
+   <Pane fx:id="leftBottomPane" layoutX="44.0" layoutY="283.0" prefHeight="243.0" prefWidth="280.0"
+         style="-fx-border-color: black;"/>
+   <Pane fx:id="rightBottomPane" layoutX="339.0" layoutY="283.0" prefHeight="243.0" prefWidth="280.0"
+         style="-fx-border-color: black;"/>
+   <!--      <Button layoutX="8.0" layoutY="28.0" mnemonicParsing="false" onAction="#oneButton" text="1" />-->
+   <!--      <Button layoutX="619.0" layoutY="28.0" mnemonicParsing="false" onAction="#twoButton" text="2" />-->
+   <!--      <Button layoutX="14.0" layoutY="283.0" mnemonicParsing="false" onAction="#threeButton" text="3" />-->
+   <!--      <Button layoutX="619.0" layoutY="283.0" mnemonicParsing="false" onAction="#fourButton" text="4" />-->
+</Pane>
