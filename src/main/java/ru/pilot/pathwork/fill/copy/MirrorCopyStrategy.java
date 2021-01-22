@@ -26,7 +26,7 @@ public class MirrorCopyStrategy implements CopyStrategy {
                         newBlocks[countY - y - 1][x] = block.mirror(false, true);
                         break;
                     case TO_DIAGONAL_LEFT:
-                        newBlocks[countY - y - 1][countX - x - 1] = block.mirror(true, true);
+                        newBlocks[countX - x - 1][countY - y - 1] = block.mirror(true, true);
                 }
             }
         }

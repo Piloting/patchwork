@@ -19,7 +19,8 @@ public class RandomFillStrategy implements FillStrategy {
         Block[][] blocks = new Block[countY][countX];
         for (int y = 0; y < countY; y++) {
             for (int x = 0; x <countX; x++) {
-                blocks[y][x] = exampleBlocks.get(rnd.nextInt(exampleBlocks.size()));
+                Block block = exampleBlocks.get(rnd.nextInt(exampleBlocks.size()));
+                blocks[y][x] = block.copy();
             }
         }
         return blocks;
