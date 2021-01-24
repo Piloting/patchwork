@@ -22,7 +22,7 @@ public class Filler {
     private final ColorSupplier colorSupplier;
 
     public Filler(){
-        this.sectorStrategy = new CrossSectorStrategy(new RandomFillStrategy(), 10);
+        this.sectorStrategy = new CrossSectorStrategy(new RandomFillStrategy(), 20);
         //new NoSectorStrategy(new RandomFillStrategy()),
         this.colorSupplier = new RandomByColorSetColorSupplier(Arrays.asList(
                 new Color(0.73, 1, 1, 1),
@@ -39,7 +39,7 @@ public class Filler {
     }
     
     public Filler(SectorStrategy sectorStrategy){
-        this.sectorStrategy = sectorStrategy != null ? sectorStrategy : new CrossSectorStrategy(new RandomFillStrategy(), 50);
+        this.sectorStrategy = sectorStrategy != null ? sectorStrategy : new CrossSectorStrategy(new RandomFillStrategy(), 20);
         this.colorSupplier = new RandomByColorSetColorSupplier(Arrays.asList(
                 new Color(0.73, 1, 1, 1),
                 new Color(0.73, 1, 0.82, 1),

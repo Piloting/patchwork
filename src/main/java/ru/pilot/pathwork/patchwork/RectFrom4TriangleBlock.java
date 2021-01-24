@@ -149,4 +149,9 @@ public class RectFrom4TriangleBlock implements Block {
             block.transform(transform);
         }
     }
+
+    @Override
+    public boolean isCenterSymmetry() {
+        return true;
+    }
 }

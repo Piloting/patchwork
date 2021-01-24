@@ -11,30 +11,43 @@ import ru.pilot.pathwork.patchwork.Block;
 
 /**
  *   ------------------------------
- *   .  .  .  .  X  X  .  .  .  . 
- *   .  .  .  .  X  X  .  .  .  . 
- *   .  .  .  .  X  X  .  .  .  . 
- *   .  .  .  .  X  X  .  .  .  . 
- *   X  X  X  X  X  X  X  X  X  X 
- *   X  X  X  X  X  X  X  X  X  X 
- *   .  .  .  .  X  X  .  .  .  . 
- *   .  .  .  .  X  X  .  .  .  . 
- *   .  .  .  .  X  X  .  .  .  . 
- *   .  .  .  .  X  X  .  .  .  . 
+ *   .  .  .  .  T  T  .  .  .  . 
+ *   .  .  .  .  T  T  .  .  .  . 
+ *   .  .  .  .  T  T  .  .  .  . 
+ *   .  .  .  .  T  T  .  .  .  . 
+ *   L  L  L  L  C  C  R  R  R  R 
+ *   L  L  L  L  C  C  R  R  R  R 
+ *   .  .  .  .  B  B  .  .  .  . 
+ *   .  .  .  .  B  B  .  .  .  . 
+ *   .  .  .  .  B  B  .  .  .  . 
+ *   .  .  .  .  B  B  .  .  .  . 
  *   ------------------------------
  **/
 public class CrossSectorStrategy implements SectorStrategy {
 
     private final FillStrategy fillStrategy;
+    private final LineSectorStrategy lineSectorStrategy;
     private final CopyStrategy copyStrategy = new MirrorCopyStrategy();
     private final double withCrossPercent;
     
     public CrossSectorStrategy(FillStrategy fillStrategy, double withCrossPercent){
         this.fillStrategy = fillStrategy;
         this.withCrossPercent = withCrossPercent;
+        this.lineSectorStrategy = new LineSectorStrategy(fillStrategy);
+    }
+    public Block[][] parting(int countX, int countY, ColorSupplier partColorStrategy){
+        return parting(countX, countY, partColorStrategy, withCrossPercent);
     }
     
-    public Block[][] parting(int countX, int countY, ColorSupplier partColorStrategy){
+    public Block[][] parting(int countX, int countY, ColorSupplier partColorStrategy, double withCrossPercent){
+        if (countX<=0 || countY<=0){
+            return new Block[0][0];
+        } else if (countX==1 || countY==1){
+            Block[][] center = fillStrategy.fill(1, 1, true);
+            partColorStrategy.fillColor(center);
+            return center;
+        }
+        
         // вычисление координат частей картинки
         int crossWidthX = getCenter(countX,  withCrossPercent);
         int sideSpaceX = sideSpace(countX, crossWidthX);
@@ -53,23 +66,14 @@ public class CrossSectorStrategy implements SectorStrategy {
         Block[][] rightBottomSpaceBlock = copyStrategy.copy(leftBottomSpaceBlock, CopyDirection.TO_RIGHT);
 
         // генерация блоков креста
-        SizeXY topCrossSize = new SizeXY(crossWidthX, Math.max(crossWidthY, sideSpaceY));
-        Block[][] topCrossBlocks = fillStrategy.fill(topCrossSize.getX(), topCrossSize.getY());
-        partColorStrategy.fillColor(topCrossBlocks);
+        Block[][] topCrossBlocks = lineSectorStrategy.parting(crossWidthX, sideSpaceY, partColorStrategy);
         Block[][] bottomCrossBlock = copyStrategy.copy(topCrossBlocks, CopyDirection.TO_DOWN);
-
-        Block[][] leftCrossBlock;
-        if (topCrossBlocks.length == 0 || topCrossBlocks[0].length == 0){
-            SizeXY leftCrossSize = new SizeXY(sideSpaceX, crossWidthY);
-            leftCrossBlock = fillStrategy.fill(leftCrossSize.getX(), leftCrossSize.getY());
-            partColorStrategy.fillColor(leftCrossBlock);
-        } else {
-            leftCrossBlock = copyStrategy.copy(topCrossBlocks, CopyDirection.TO_DIAGONAL_LEFT);
-        }
+        Block[][] leftCrossBlock = lineSectorStrategy.parting(sideSpaceX, crossWidthY, partColorStrategy);
         Block[][] rightCrossBlock = copyStrategy.copy(leftCrossBlock, CopyDirection.TO_RIGHT);
-        
-        Block[][] centerBlock = fillStrategy.fill(countX - sideSpaceX*2, countY - sideSpaceY*2);
-        partColorStrategy.fillColor(centerBlock);
+
+        Block[][] centerBlock = parting(countX - sideSpaceX*2, countY - sideSpaceY*2, partColorStrategy, 0);
+        //Block[][] centerBlock = fillStrategy.fill(countX - sideSpaceX*2, countY - sideSpaceY*2, true);
+        //partColorStrategy.fillColor(centerBlock);
         
         // объединить
         Block[][] result = new Block[countY][countX];
@@ -89,17 +93,6 @@ public class CrossSectorStrategy implements SectorStrategy {
         merge(result, rightBottomSpaceBlock, new SizeXY(sideSpaceX+crossWidthX, sideSpaceY+crossWidthY), new SizeXY(sideSpaceX+crossWidthX+sideSpaceX, sideSpaceY+crossWidthY+sideSpaceY));
         
         return result;
-    }
-
-    private void merge(Block[][] result, Block[][] blocks, SizeXY startXY, SizeXY endXY) {
-        int countX = endXY.getX() - startXY.getX();
-        int countY = endXY.getY() - startXY.getY();
-
-        for (int y = 0; y < countY; y++) {
-            for (int x = 0; x < countX; x++) {
-                result[startXY.getY() + y][startXY.getX() + x] = blocks[y][x];
-            }
-        }
     }
 
     private void pseudoPaint(int crossWidthX, int sideSpaceX, int crossWidthY, int sideSpaceY) {

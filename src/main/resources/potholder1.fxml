@@ -81,7 +81,13 @@
                                              <children>
                                                 <RadioButton fx:id="randomPatternRB" mnemonicParsing="false" text="Случайно" />
                                                 <RadioButton fx:id="sectorPatternRB" mnemonicParsing="false" text="Сектор" />
+                                                <RadioButton fx:id="linePatternRB" mnemonicParsing="false" text="Линии" />
                                                 <RadioButton fx:id="crossPatternRB" mnemonicParsing="false" selected="true" text="Крест" />
+                                                <Slider fx:id="crossSizePercentSlider" prefHeight="17.0" prefWidth="138.0" showTickLabels="true" showTickMarks="true" value="20.0">
+                                                   <padding>
+                                                      <Insets bottom="5.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </Slider>
                                              </children>
                                           </VBox>
                                        </children>

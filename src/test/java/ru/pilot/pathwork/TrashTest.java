@@ -7,6 +7,13 @@ import ru.pilot.pathwork.fill.sector.CrossSectorStrategy;
 import ru.pilot.pathwork.fill.fillBlock.RandomFillStrategy;
 
 public class TrashTest {
+
+    @Test
+    public void testt(){
+        int countX = 3;
+        int center = (int) Math.ceil((double) countX / 2);
+        System.out.println(center);
+    }
     
     @Test
     public void test(){

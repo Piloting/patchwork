@@ -23,6 +23,9 @@ public interface Block {
     void transform(Transform transform);
     
     List<Block> exampleBlocks = new ArrayList<>();
+    List<Block> symmetryBlocks = new ArrayList<>();
+    
+    boolean isCenterSymmetry();
     
     static List<Block> getExampleBlocks(){
         if (exampleBlocks.isEmpty()){
@@ -32,5 +35,13 @@ public interface Block {
             exampleBlocks.add(new RectFrom4TriangleBlock(0, Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE));
         }
         return exampleBlocks;
+    }
+    
+    static List<Block> getSymmetryBlocks(){
+        if (symmetryBlocks.isEmpty()){
+            symmetryBlocks.add(new RectangleBlock(Color.GREEN));
+            symmetryBlocks.add(new RectFrom4TriangleBlock(0, Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE));
+        }
+        return symmetryBlocks;
     }
 }

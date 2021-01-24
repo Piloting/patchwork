@@ -60,4 +60,9 @@ public class RectangleBlock implements Block {
     public void transform(Transform transform){
         
     }
+
+    @Override
+    public boolean isCenterSymmetry() {
+        return true;
+    }
 }

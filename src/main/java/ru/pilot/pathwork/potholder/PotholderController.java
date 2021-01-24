@@ -31,6 +31,7 @@ import ru.pilot.pathwork.SizeXY;
 import ru.pilot.pathwork.fill.Filler;
 import ru.pilot.pathwork.fill.fillBlock.RandomFillStrategy;
 import ru.pilot.pathwork.fill.sector.CrossSectorStrategy;
+import ru.pilot.pathwork.fill.sector.LineSectorStrategy;
 import ru.pilot.pathwork.fill.sector.NoSectorStrategy;
 import ru.pilot.pathwork.fill.sector.SectorStrategy;
 import ru.pilot.pathwork.patchwork.Block;
@@ -72,6 +73,8 @@ public class PotholderController {
     public RadioButton randomPatternRB;
     public RadioButton sectorPatternRB;
     public RadioButton crossPatternRB;
+    public RadioButton linePatternRB;
+    public Slider crossSizePercentSlider;
     
     @FXML
     private void initialize() {
@@ -90,6 +93,7 @@ public class PotholderController {
         randomPatternRB.setToggleGroup(group);
         sectorPatternRB.setToggleGroup(group);
         crossPatternRB.setToggleGroup(group);
+        linePatternRB.setToggleGroup(group);
     }
 
     private void fillPatterns(List<Block> templateBlockList) {
@@ -171,9 +175,11 @@ public class PotholderController {
 
         SectorStrategy sectorStrategy = null;
         if (crossPatternRB.isSelected()){
-            sectorStrategy = new CrossSectorStrategy(new RandomFillStrategy(), 10);
+            sectorStrategy = new CrossSectorStrategy(new RandomFillStrategy(), crossSizePercentSlider.getValue());
         } else if (sectorPatternRB.isSelected()){
             
+        }  else if (linePatternRB.isSelected()){
+            sectorStrategy = new LineSectorStrategy(new RandomFillStrategy());
         } else {
             sectorStrategy = new NoSectorStrategy(new RandomFillStrategy());
         }

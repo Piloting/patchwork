@@ -1,12 +1,10 @@
 package ru.pilot.pathwork.patchwork;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -14,10 +12,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
-import ru.pilot.pathwork.SizeXY;
 import ru.pilot.pathwork.color.ColorSupplier;
-import ru.pilot.pathwork.fill.copy.CopyDirection;
-import sun.security.krb5.internal.PAData;
 
 public class TriangleBlock implements Block {
     
@@ -188,6 +183,11 @@ public class TriangleBlock implements Block {
         transform.transform2DPoints(points, 0, points, 0, points.length/2);
     }
     
+    @Override
+    public boolean isCenterSymmetry() {
+        return false;
+    }
+
     public Point2D getCenter(){
         double maxY = max(points[0], points[2], points[4]);
         double minY = min(points[0], points[2], points[4]);

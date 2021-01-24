@@ -94,6 +94,11 @@ public class RectFrom2TriangleBlock implements Block {
         }
     }
 
+    @Override
+    public boolean isCenterSymmetry() {
+        return false;
+    }
+
     public Point2D getCenter(){
         Point2D center = null;
         for (Block block : blocks) {
