@@ -3,7 +3,7 @@ package ru.pilot.pathwork.color;
 import java.util.List;
 import java.util.Random;
 
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,9 +12,9 @@ import lombok.Getter;
 public class ColorSet {
     public static final Random rnd = new Random();
     
-    private List<Color> colors;
+    private List<Paint> colors;
     
-    public Color getRandom(){
+    public Paint getRandom(){
         return colors.get(rnd.nextInt(colors.size()));
     }
 }

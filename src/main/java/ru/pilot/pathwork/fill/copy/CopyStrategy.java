@@ -1,7 +1,6 @@
 package ru.pilot.pathwork.fill.copy;
 
-import ru.pilot.pathwork.fill.copy.CopyDirection;
-import ru.pilot.pathwork.patchwork.Block;
+import ru.pilot.pathwork.block.Block;
 
 public interface CopyStrategy {
     Block[][] copy(Block[][] blocks, CopyDirection direction);

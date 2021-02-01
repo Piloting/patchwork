@@ -3,7 +3,8 @@ package ru.pilot.pathwork.fill.fillBlock;
 import java.util.List;
 import java.util.Random;
 
-import ru.pilot.pathwork.patchwork.Block;
+import ru.pilot.pathwork.block.Block;
+import ru.pilot.pathwork.block.RectangleBlock;
 
 public class RandomFillStrategy implements FillStrategy {
 
@@ -15,12 +16,15 @@ public class RandomFillStrategy implements FillStrategy {
             return new Block[countX][countY];
         }
 
-        List<Block> exampleBlocks = onlySymmetry ? Block.getSymmetryBlocks() : Block.getExampleBlocks();
+        List<Block> activeBlocks = onlySymmetry ? Block.getActiveSymmetryBlocks() : Block.getActiveBlocks();
+        if (activeBlocks.isEmpty()){
+            activeBlocks.add(new RectangleBlock());
+        }
 
         Block[][] blocks = new Block[countY][countX];
         for (int y = 0; y < countY; y++) {
             for (int x = 0; x <countX; x++) {
-                Block block = exampleBlocks.get(rnd.nextInt(exampleBlocks.size()));
+                Block block = activeBlocks.get(rnd.nextInt(activeBlocks.size()));
                 blocks[y][x] = block.copy();
             }
         }

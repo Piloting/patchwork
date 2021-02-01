@@ -2,7 +2,7 @@ package ru.pilot.pathwork.fill.sector;
 
 import ru.pilot.pathwork.color.ColorSupplier;
 import ru.pilot.pathwork.fill.fillBlock.FillStrategy;
-import ru.pilot.pathwork.patchwork.Block;
+import ru.pilot.pathwork.block.Block;
 
 public class NoSectorStrategy implements SectorStrategy {
 

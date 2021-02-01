@@ -2,34 +2,32 @@ package ru.pilot.pathwork.color;
 
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
-public class RandomByTemplateColorSupplier extends PictureColorSupplier {
+public class RandomByPictureColorSupplier extends PictureColorSupplier {
     
-    private final Image greyImage;
-    private final TreeMap<Double, Color> greyToColorBucket;
+    //private final Image greyImage;
+    private final TreeMap<Double, Paint> greyToColorBucket;
     private final ColorSupplier colorSupplier;
     
-    public RandomByTemplateColorSupplier(Image originalImage, int colorCount, int wPaneSize, int hPaneSize, ColorSupplier colorSupplier){
+    public RandomByPictureColorSupplier(Image originalImage, int colorCount, int wPaneSize, int hPaneSize, ColorSupplier colorSupplier){
         super(originalImage, colorCount, wPaneSize, hPaneSize);
         this.colorSupplier = colorSupplier;
         this.greyToColorBucket = getColorBucket(originalImage, colorCount);
-        this.greyImage = toGray(originalImage);
+        //this.greyImage = toGray(originalImage);
     }
 
     protected Image getImage(){
         return image;
     }
     
-    protected Color getAvgColorByPict(int hStart, int hEnd, int wStart, int wEnd) {
+    protected Paint getAvgColorByPict(int hStart, int hEnd, int wStart, int wEnd) {
         double redBucket = 0;
         double greenBucket = 0;
         double blueBucket = 0;
@@ -63,7 +61,7 @@ public class RandomByTemplateColorSupplier extends PictureColorSupplier {
         return greyToColorBucket.floorEntry(avgGray).getValue();
     }
 
-    private Image toGray(Image image){
+    /*private Image toGray(Image image){
         PixelReader pixelReader = image.getPixelReader();
         int width = (int)image.getWidth();
         int height = (int)image.getHeight();
@@ -74,12 +72,12 @@ public class RandomByTemplateColorSupplier extends PictureColorSupplier {
             for (int w = 0; w < width; w++) {
                 Color color = pixelReader.getColor(w, h);
                 double gray = getGray(color);
-                Color value = greyToColorBucket.floorEntry(gray).getValue();
+                Paint value = greyToColorBucket.floorEntry(gray).getValue();
                 pw.setColor(w, h, value);
             }
         }
         return grayImg;
-    }
+    }*/
 
     private double getGray(double red, double green, double blue) {
         return red * 0.3 + green * 0.59 + blue * 0.11;
@@ -88,7 +86,7 @@ public class RandomByTemplateColorSupplier extends PictureColorSupplier {
         return getGray(color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    private TreeMap<Double, Color> getColorBucket(Image img, int count){
+    private TreeMap<Double, Paint> getColorBucket(Image img, int count){
         PixelReader pixelReader = img.getPixelReader();
 
         double min = 1;
@@ -103,15 +101,15 @@ public class RandomByTemplateColorSupplier extends PictureColorSupplier {
         }
 
         double step = (max - min) / count;
-        TreeMap<Double, Color> colorBucketMap = new TreeMap<>();
+        TreeMap<Double, Paint> colorBucketMap = new TreeMap<>();
         
-        TreeSet<Color> colors = new TreeSet<>(Comparator.comparingDouble(this::getGray));
+        TreeSet<Paint> colors = new TreeSet<>();
         for (int i = 0; i < count; i++) {
             colors.add(colorSupplier.getColor(0,0,0,0));
         }
         
         int i = 0;
-        for (Color color : colors) {
+        for (Paint color : colors) {
             double startInterval = min + i * step;
             colorBucketMap.put(startInterval, color);
             i++;
@@ -120,9 +118,9 @@ public class RandomByTemplateColorSupplier extends PictureColorSupplier {
         return colorBucketMap;
     }
     
-    private Color getUniqueColor(Collection<Color> existsColor){
+    private Paint getUniqueColor(Collection<Color> existsColor){
         int i = 0;
-        Color color;
+        Paint color;
         do {
             color = colorSupplier.getColor(0,0,0,0);
             i++;

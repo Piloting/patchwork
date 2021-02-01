@@ -1,11 +1,16 @@
 package ru.pilot.pathwork.color;
 
 
-import javafx.scene.paint.Color;
-import ru.pilot.pathwork.patchwork.Block;
+import java.util.Set;
+
+import javafx.scene.paint.Paint;
+import ru.pilot.pathwork.block.Block;
 
 public interface ColorSupplier {
-    default Color getColor(int h, int w, int hBlock, int wBlock) {
+    default Paint getColor(int h, int w, int hBlock, int wBlock) {
+        return getColor(h, w, hBlock, wBlock, null);
+    }
+    default Paint getColor(int h, int w, int hBlock, int wBlock, Set<Paint> exclude) {
         return null;
     }
     

@@ -1,6 +1,6 @@
 package ru.pilot.pathwork.fill;
 
-import ru.pilot.pathwork.patchwork.Block;
+import ru.pilot.pathwork.block.Block;
 
 public class SimpleCopyStrategy {
     

@@ -31,7 +31,8 @@ public class Main extends Application {
     private void setPrimaryStage(Stage pStage) {
         Main.pStage = pStage;
     }
-    public static void main(String[] args) {
+    
+    public void main2(String[] args) {
         launch(args);
     }
 

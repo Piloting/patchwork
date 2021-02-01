@@ -15,19 +15,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
-import org.apache.commons.lang3.math.NumberUtils;
-import ru.pilot.pathwork.color.PictureColorSupplier;
-import ru.pilot.pathwork.color.RandomColorSupplier;
-import ru.pilot.pathwork.patchwork.Patchwork;
-import ru.pilot.pathwork.color.RandomByColorSetColorSupplier;
 import ru.pilot.pathwork.color.ColorSetUtils;
 import ru.pilot.pathwork.color.ColorSupplier;
-import ru.pilot.pathwork.color.RandomByTemplateColorSupplier;
+import ru.pilot.pathwork.color.PictureColorSupplier;
+import ru.pilot.pathwork.color.RandomByColorSetColorSupplier;
+import ru.pilot.pathwork.color.RandomByPictureColorSupplier;
+import ru.pilot.pathwork.color.RandomColorSupplier;
 import ru.pilot.pathwork.kaleidoscope.Kaleidoscope;
 
 public class MainController {
@@ -116,7 +112,7 @@ public class MainController {
         }
 
         if (templatePictureImageView.getImage() != null){
-            return new RandomByTemplateColorSupplier(
+            return new RandomByPictureColorSupplier(
                     templatePictureImageView.getImage(),
                     MiscUtils.getInt(colorCountTextField, 5),
                     (int)wSlider.getValue(),
@@ -130,9 +126,9 @@ public class MainController {
     }
 
 
-    private List<Color> getSelectedInColorBalance(){
+    private List<Paint> getSelectedInColorBalance(){
         ObservableList<String> selectedItems = colorSetListView.getSelectionModel().getSelectedItems();
-        List<Color> colors = new ArrayList<>();
+        List<Paint> colors = new ArrayList<>();
         for (String selectedItem : selectedItems) {
             colors.addAll(ColorSetUtils.getColorSetMap().get(selectedItem).getColors());
         }

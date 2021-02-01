@@ -1,8 +1,11 @@
 package ru.pilot.pathwork.color;
 
+import java.util.Set;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class PictureColorSupplier implements ColorSupplier {
     
@@ -19,11 +22,11 @@ public class PictureColorSupplier implements ColorSupplier {
     }
 
     @Override
-    public Color getColor(int h, int w, int hBlock, int wBlock) {
+    public Paint getColor(int h, int w, int hBlock, int wBlock, Set<Paint> exclude) {
         return getAvgColorByPict(h, h+hBlock, w, w+wBlock);
     }
 
-    protected Color getAvgColorByPict(int hStart, int hEnd, int wStart, int wEnd) {
+    protected Paint getAvgColorByPict(int hStart, int hEnd, int wStart, int wEnd) {
         double redBucket = 0;
         double greenBucket = 0;
         double blueBucket = 0;

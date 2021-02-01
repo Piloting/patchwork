@@ -1,8 +1,17 @@
 package ru.pilot.pathwork;
 
+import java.net.URL;
+
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import lombok.SneakyThrows;
+import ru.pilot.pathwork.potholder.PotholderApp;
 
 public class ControlUtils {
 
@@ -36,5 +45,30 @@ public class ControlUtils {
             posY = group.getLayoutY();
         });
     }
-    
+
+    @SneakyThrows
+    public static void openForm(String fileName, String title) {
+        // New window (Stage)
+        URL sizeFrm = Thread.currentThread().getContextClassLoader().getResource(fileName);
+        Parent root = FXMLLoader.load(sizeFrm);
+
+        Stage newWindow = new Stage();
+        newWindow.setTitle(title);
+        newWindow.setScene(new Scene(root));
+
+        // Specifies the modality for new window.
+        newWindow.initModality(Modality.WINDOW_MODAL);
+
+        // Specifies the owner Window (parent) for new window
+        Stage primaryStage = PotholderApp.getPrimaryStage();
+        newWindow.initOwner(primaryStage);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(primaryStage.getX() + 200);
+        newWindow.setY(primaryStage.getY() + 100);
+
+        newWindow.showAndWait();
+    }
+
+
 }

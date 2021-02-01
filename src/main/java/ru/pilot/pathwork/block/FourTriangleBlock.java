@@ -1,19 +1,22 @@
-package ru.pilot.pathwork.patchwork;
+package ru.pilot.pathwork.block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import ru.pilot.pathwork.color.ColorSupplier;
 
-public class RectFrom4TriangleBlock implements Block {
+public class FourTriangleBlock implements Block {
 
     private final List<TriangleBlock> blocks = new ArrayList<>(4);
     private Paint paint0;
@@ -21,7 +24,11 @@ public class RectFrom4TriangleBlock implements Block {
     private Paint paint2;
     private Paint paint3;
     
-    public RectFrom4TriangleBlock(List<TriangleBlock> blocks, Paint paint0, Paint paint1, Paint paint2, Paint paint3){
+    public FourTriangleBlock(){
+        this(0, Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE);
+    }
+    
+    public FourTriangleBlock(List<TriangleBlock> blocks, Paint paint0, Paint paint1, Paint paint2, Paint paint3){
         this.blocks.addAll(blocks);
         this.paint0 = paint0;
         this.paint1 = paint1;
@@ -29,7 +36,7 @@ public class RectFrom4TriangleBlock implements Block {
         this.paint3 = paint3;
     }
     
-    public RectFrom4TriangleBlock(double angle, Paint paint0, Paint paint1, Paint paint2, Paint paint3) {
+    public FourTriangleBlock(double angle, Paint paint0, Paint paint1, Paint paint2, Paint paint3) {
         // width - сторона квадрата, здесь это гипотенуза. Надо узнать сторону треугольника при такой гипотенузе
         double hypotenuse = 50;
         double width = Math.sqrt(hypotenuse * hypotenuse / 2);
@@ -68,7 +75,7 @@ public class RectFrom4TriangleBlock implements Block {
 
     @Override
     public String getType() {
-        return "RectFrom4TriangleBlock";
+        return "FourTriangleBlock";
     }
 
     @Override
@@ -77,7 +84,7 @@ public class RectFrom4TriangleBlock implements Block {
         for (Block block : blocks) {
             newBlocks.add((TriangleBlock)block.copy());
         }
-        return new RectFrom4TriangleBlock(newBlocks, paint0, paint1, paint2, paint3);
+        return new FourTriangleBlock(newBlocks, paint0, paint1, paint2, paint3);
     }
 
     public Block mirror(boolean isX, boolean isY){
@@ -117,7 +124,7 @@ public class RectFrom4TriangleBlock implements Block {
             newBlocks[3] = blocks.get(3).copy();
         }
         
-        return new RectFrom4TriangleBlock(Arrays.asList(newBlocks), newPaint0, newPaint1, newPaint2, newPaint3);
+        return new FourTriangleBlock(Arrays.asList(newBlocks), newPaint0, newPaint1, newPaint2, newPaint3);
     }
 
     @Override
@@ -128,14 +135,14 @@ public class RectFrom4TriangleBlock implements Block {
     @Override
     public void setPaint(int i, int j, ColorSupplier colorSupplier) {
         // todo как сделать?
-        this.paint0 = colorSupplier.getColor(i, j, 50, 50);
-        this.paint1 = colorSupplier.getColor(i+1, j, 25, 50);
-        this.paint2 = colorSupplier.getColor(i, j+1, 50, 25);
-        this.paint3 = colorSupplier.getColor(i+1, j+1, 25, 25);
-        blocks.get(0).setInnerPaint(this.paint0);
-        blocks.get(1).setInnerPaint(this.paint1);
-        blocks.get(2).setInnerPaint(this.paint2);
-        blocks.get(3).setInnerPaint(this.paint3);
+        paint0 = colorSupplier.getColor(i, j, 50, 50);
+        paint1 = colorSupplier.getColor(i+1, j, 25, 50, Collections.singleton(paint0));
+        paint2 = colorSupplier.getColor(i, j+1, 50, 25, Collections.singleton(paint1));
+        paint3 = colorSupplier.getColor(i+1, j+1, 25, 25, new HashSet<>(Arrays.asList(paint0, paint2)));
+        blocks.get(0).setInnerPaint(paint0);
+        blocks.get(1).setInnerPaint(paint1);
+        blocks.get(2).setInnerPaint(paint2);
+        blocks.get(3).setInnerPaint(paint3);
     }
 
     @Override
@@ -153,5 +160,34 @@ public class RectFrom4TriangleBlock implements Block {
     @Override
     public boolean isCenterSymmetry() {
         return true;
+    }
+
+    @Override
+    public boolean isReadyMade() {
+        return true;
+    }
+
+    @Override
+    public List<Paint> getColors() {
+        return Arrays.asList(paint0,paint1,paint2,paint3);
+    }
+    
+    @Override
+    public void replaceColor(Paint oldPaint, Paint newPaint) {
+        if (paint0.equals(oldPaint)){
+            paint0 = newPaint;
+        }
+        if (paint1.equals(oldPaint)){
+            paint1 = newPaint;
+        }
+        if (paint2.equals(oldPaint)){
+            paint2 = newPaint;
+        }
+        if (paint3.equals(oldPaint)){
+            paint3 = newPaint;
+        }
+        for (TriangleBlock block : blocks) {
+            block.replaceColor(oldPaint, newPaint);
+        }
     }
 }

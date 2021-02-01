@@ -14,74 +14,96 @@ import ru.pilot.pathwork.color.RandomByColorSetColorSupplier;
 import ru.pilot.pathwork.fill.fillBlock.RandomFillStrategy;
 import ru.pilot.pathwork.fill.sector.CrossSectorStrategy;
 import ru.pilot.pathwork.fill.sector.SectorStrategy;
-import ru.pilot.pathwork.patchwork.Block;
+import ru.pilot.pathwork.block.Block;
 
 public class Filler {
-    
+
+    public static final RandomByColorSetColorSupplier DEFAULT_COLORS = new RandomByColorSetColorSupplier(Arrays.asList(
+            new Color(0.73, 1, 1, 1),
+            new Color(0.73, 1, 0.82, 1),
+            new Color(0.9, 1, 0.73, 1),
+            new Color(1, 0.73, 0.73, 1),
+            new Color(1, 0.73, 0.95, 1)
+    ));
     private final SectorStrategy sectorStrategy;
     private final ColorSupplier colorSupplier;
 
     public Filler(){
         this.sectorStrategy = new CrossSectorStrategy(new RandomFillStrategy(), 20);
         //new NoSectorStrategy(new RandomFillStrategy()),
-        this.colorSupplier = new RandomByColorSetColorSupplier(Arrays.asList(
-                new Color(0.73, 1, 1, 1),
-                new Color(0.73, 1, 0.82, 1),
-                new Color(0.9, 1, 0.73, 1),
-                new Color(1, 0.73, 0.73, 1),
-                new Color(1, 0.73, 0.95, 1)
-        ));
+        this.colorSupplier = DEFAULT_COLORS;
     }
     
     public Filler(SectorStrategy sectorStrategy, ColorSupplier colorSupplier ){
         this.sectorStrategy = sectorStrategy;
-        this.colorSupplier = colorSupplier;
+        this.colorSupplier = colorSupplier != null ? colorSupplier : DEFAULT_COLORS;
     }
     
     public Filler(SectorStrategy sectorStrategy){
         this.sectorStrategy = sectorStrategy != null ? sectorStrategy : new CrossSectorStrategy(new RandomFillStrategy(), 20);
-        this.colorSupplier = new RandomByColorSetColorSupplier(Arrays.asList(
-                new Color(0.73, 1, 1, 1),
-                new Color(0.73, 1, 0.82, 1),
-                new Color(0.9, 1, 0.73, 1),
-                new Color(1, 0.73, 0.73, 1),
-                new Color(1, 0.73, 0.95, 1)
-        ));
+        this.colorSupplier = DEFAULT_COLORS;
     }
 
-    public void fillBlock(Group group){
-        fillBlock(group,
-                sectorStrategy,
-                colorSupplier, 
-                null);
+    public void fillBlock(Group group, Block[][] blocks){
+        // почистить
+        for (Node child : group.getChildren()) {
+            if (child instanceof Pane){
+                ((Pane) child).getChildren().clear();
+            }
+        }
+        
+        // напихать на форму
+        setToPane(group, blocks);
     }
     
-    public void fillBlock(Group group, SectorStrategy sectorStrategy, ColorSupplier partColorStrategy, ColorSupplier fullColorStrategy){
+    public Block[][] fillBlock(Group group){
+        // посчитать сколько панелей
         int countX = 0, countY = 0;
         for (Node child : group.getChildren()) {
             if (child instanceof Pane){
                 countY = Math.max(getI(child), countY);
                 countX = Math.max(getJ(child), countX);
-                ((Pane) child).getChildren().clear();
             }
         }
-
         countX++; countY++;
-        
-        Block[][] parting = sectorStrategy.parting(countX, countY, partColorStrategy);
+
+        // создание блоков
+        Block[][] blocks = createBlock(countX, countY,
+                sectorStrategy,
+                colorSupplier, 
+                null);
 
         // напихать на форму
+        setToPane(group, blocks);
+
+        return blocks;
+    }
+
+    private void setToPane(Group group, Block[][] blocks) {
         for (Node child : group.getChildren()) {
-            if (child instanceof Pane){
+            if (child instanceof Pane) {
                 Pane pane = (Pane) child;
-                
+
                 int y = getI(pane);
                 int x = getJ(pane);
-                
-                Block block = parting[y][x];
+
+                Block block = blocks[y][x];
                 pane.getChildren().add(block.getNode(pane.getPrefWidth(), pane.getPrefHeight()));
             }
         }
+    }
+
+    public Block[][] createBlock(int countX, int countY, SectorStrategy sectorStrategy, ColorSupplier partColorStrategy, ColorSupplier fullColorStrategy){
+        Block[][] parting = sectorStrategy.parting(
+                countX, 
+                countY, 
+                partColorStrategy);
+
+        if (fullColorStrategy != null){
+            fullColorStrategy.fillColor(parting);
+        }
+        
+        return parting;
     }
 
 

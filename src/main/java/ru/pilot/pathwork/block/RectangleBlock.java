@@ -1,4 +1,4 @@
-package ru.pilot.pathwork.patchwork;
+package ru.pilot.pathwork.block;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,12 +13,12 @@ import ru.pilot.pathwork.color.ColorSupplier;
 public class RectangleBlock implements Block {
 
     private Paint paint;
-    private double width;
-    private double height;
 
+    public RectangleBlock(){
+        this(Color.GREEN);
+    }
+    
     public RectangleBlock(Paint paint){
-        this.width = 50;
-        this.height = 50;
         this.paint = paint;
     }
 
@@ -57,6 +57,11 @@ public class RectangleBlock implements Block {
         this.paint = paint;
     }
 
+    @Override
+    public List<Paint> getColors() {
+        return Collections.singletonList(paint);
+    }
+
     public void transform(Transform transform){
         
     }
@@ -64,5 +69,17 @@ public class RectangleBlock implements Block {
     @Override
     public boolean isCenterSymmetry() {
         return true;
+    }
+
+    @Override
+    public boolean isReadyMade() {
+        return true;
+    }
+
+    @Override
+    public void replaceColor(Paint oldPaint, Paint newPaint) {
+        if (paint.equals(oldPaint)){
+            paint = newPaint;
+        }
     }
 }

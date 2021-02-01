@@ -6,7 +6,7 @@ import ru.pilot.pathwork.fill.copy.CopyDirection;
 import ru.pilot.pathwork.fill.copy.CopyStrategy;
 import ru.pilot.pathwork.fill.copy.MirrorCopyStrategy;
 import ru.pilot.pathwork.fill.fillBlock.FillStrategy;
-import ru.pilot.pathwork.patchwork.Block;
+import ru.pilot.pathwork.block.Block;
 
 public class LineSectorStrategy implements SectorStrategy {
     private final FillStrategy fillStrategy;

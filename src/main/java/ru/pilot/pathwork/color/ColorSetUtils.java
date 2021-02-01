@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class ColorSetUtils {
@@ -40,7 +41,7 @@ public class ColorSetUtils {
         Map<String, WritableImage> imageMap = new HashMap<>();
         HBox hBox = new HBox();
         for (Map.Entry<String, ColorSet> entry : colorSetMap.entrySet()) {
-            for (Color color : entry.getValue().getColors()) {
+            for (Paint color : entry.getValue().getColors()) {
                 Rectangle r = new Rectangle(45,30, color);
                 hBox.getChildren().add(r);
             }

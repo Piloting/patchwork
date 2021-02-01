@@ -1,4 +1,4 @@
-package ru.pilot.pathwork.patchwork;
+package ru.pilot.pathwork.block;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +19,10 @@ public class TriangleBlock implements Block {
     private Paint paint;
     private double[] points;
 
+    public TriangleBlock(){
+        this(0, null, Color.GREEN);
+    }
+            
     public TriangleBlock(Rotate rot, Paint color){
         this(50, rot, null, color);
     }
@@ -178,13 +182,23 @@ public class TriangleBlock implements Block {
     public void setInnerPaint(Paint paint) {
         this.paint = paint;
     }
-    
+
+    @Override
+    public List<Paint> getColors() {
+        return Collections.singletonList(paint);
+    }
+
     public void transform(Transform transform){
         transform.transform2DPoints(points, 0, points, 0, points.length/2);
     }
     
     @Override
     public boolean isCenterSymmetry() {
+        return false;
+    }
+
+    @Override
+    public boolean isReadyMade() {
         return false;
     }
 
@@ -196,5 +210,12 @@ public class TriangleBlock implements Block {
         double sizeY = maxY - minY;
         double sizeX = maxX - minX;
         return new Point2D(maxX-sizeX/2, maxY-sizeY/2);
+    }
+
+    @Override
+    public void replaceColor(Paint oldPaint, Paint newPaint) {
+        if (paint.equals(oldPaint)){
+            paint = newPaint;
+        }
     }
 }

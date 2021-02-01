@@ -1,4 +1,4 @@
-package ru.pilot.pathwork.patchwork;
+package ru.pilot.pathwork;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import lombok.Data;
 import ru.pilot.pathwork.color.ColorSupplier;
+import ru.pilot.pathwork.block.Block;
+import ru.pilot.pathwork.block.RectangleBlock;
 
 @Data
 public class Patchwork {
