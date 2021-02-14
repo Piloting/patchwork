@@ -1,7 +1,6 @@
 package ru.pilot.pathwork.potholder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +20,13 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import ru.pilot.pathwork.ControlUtils;
 import ru.pilot.pathwork.MiscUtils;
@@ -64,7 +65,7 @@ http://www.easyrgb.com/en/math.php
 
 public class PotholderController {
 
-    private final ModelPotholder model = new ModelPotholder();
+    private final ModelPotholder model = ModelPotholder.INSTANCE;
     private final String FORM_COLOR_CHOICE = "colorChoice.fxml";
     private final String FORM_MY_COLOR_SET = "myColorSet.fxml";
     
@@ -95,6 +96,7 @@ public class PotholderController {
     
     @FXML
     private void initialize() {
+        model.setCurrentPane(bigSidePane);
         fillActiveBlockPane();
         createSizePane(new SizeXY(8,8), smallSidePane, miniPaneIdMap, bigSidePane, frontBlockIdMap);
         generateSimples(new SizeXY(4,4), miniPaneIdMap, frontBlockIdMap);
@@ -188,12 +190,13 @@ public class PotholderController {
     }
 
     private void addEventChangeBlockType(Group bigBlocks){
-        List<Block> templateBlockList = Block.getAllBlocks();
+        List<Block> activeBlockList = Block.getActiveBlocks();
         for (Node child : bigBlocks.getChildren()) {
             child.setOnMouseClicked(event -> {
-                if (event.getClickCount() < 2){
+                if (MouseButton.PRIMARY != event.getButton()){
                     return;
                 }
+                
                 Pane source = (Pane) event.getSource();
                 
                 Optional<String> label = source.getChildren().filtered(this::isLabel).stream().map(Node::getId).findFirst();
@@ -202,17 +205,43 @@ public class PotholderController {
                 Block block;
                 int index = 0;
                 if (existBlockType != null){
-                    int anInt = MiscUtils.getInt(existBlockType);
-                    index = anInt+1 < templateBlockList.size() ? anInt+1 : 0;
-                    Block stringBlockEntry = templateBlockList.get(index);
-                    block = stringBlockEntry != null ? stringBlockEntry : templateBlockList.iterator().next();
+                    index = MiscUtils.getInt(existBlockType);
+                    block = getNext(activeBlockList, index++);
                 } else {
-                    block = templateBlockList.iterator().next();
+                    block = activeBlockList.iterator().next();
                 }
                 
+                if (block == null){
+                    return;
+                }
+                block = block.copy();
+                
+                Block[][] blocks = new Block[1][1];
+                blocks[0][0] = block;
+                ColorSupplier colorSupplier = getColorSupplier();
+                if (colorSupplier != null) {
+                    colorSupplier.fillColor(blocks);  
+                } 
                 fillBlock(source, block, index);
+                
+                // замена в модели
+                String[] ij = StringUtils.split(source.getId(), "_");
+                int curr_i = MiscUtils.getInt(ij[0]);
+                int curr_j = MiscUtils.getInt(ij[1]);
+                model.replaceBlock(ModelType.MAIN, "MAIN", block, curr_i, curr_j);
+                currentColorBoxInit();
             });
         }
+    }
+    
+    private Block getNext(List<Block> blockList, int currentIndex){
+        if (CollectionUtils.isEmpty(blockList)){
+            return null;
+        }
+        if (currentIndex >= blockList.size()){
+            currentIndex = currentIndex % blockList.size();
+        }
+        return blockList.get(currentIndex);
     }
 
     private boolean isLabel(Node node) {
@@ -301,6 +330,9 @@ public class PotholderController {
     }
     
     private void fillBlock(Pane pane, Block block, int index) {
+        if (block == null){
+            return;
+        }
         Label label = new Label();
         label.setId(index+"");
         label.setVisible(false);

@@ -14,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
+import ru.pilot.pathwork.ControlUtils;
 import ru.pilot.pathwork.color.ColorSupplier;
 
 public class FourTriangleBlock implements Block {
@@ -63,12 +64,11 @@ public class FourTriangleBlock implements Block {
        
         ObservableList<Node> children = group.getChildren();
         
-        children.add(blocks.get(0).getNode(width, height/2));
-        children.add(blocks.get(2).getNode(width, height/2));
+        children.add(ControlUtils.addColorReplaceEvent(blocks.get(0), blocks.get(0).getNode(width, height/2)));
+        children.add(ControlUtils.addColorReplaceEvent(blocks.get(2), blocks.get(2).getNode(width, height/2)));
         
-        children.add(blocks.get(1).getNode(width/2, height));
-        children.add(blocks.get(3).getNode(width/2, height));
-        
+        children.add(ControlUtils.addColorReplaceEvent(blocks.get(1), blocks.get(1).getNode(width/2, height)));
+        children.add(ControlUtils.addColorReplaceEvent(blocks.get(3), blocks.get(3).getNode(width/2, height)));
         
         return group;
     }

@@ -8,11 +8,15 @@ import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
+import ru.pilot.pathwork.ControlUtils;
 import ru.pilot.pathwork.color.ColorSupplier;
+import ru.pilot.pathwork.potholder.ModelPotholder;
 
 public class TwoTriangleBlock implements Block {
     
@@ -45,8 +49,9 @@ public class TwoTriangleBlock implements Block {
     @Override
     public Node getNode(double width, double height) {
         Group group = new Group();
-        for (Block block : blocks) {
-            group.getChildren().add(block.getNode(width, height));
+        for (TriangleBlock block : blocks) {
+            Node node = block.getNode(width, height);
+            group.getChildren().add(ControlUtils.addColorReplaceEvent(block, node));
         }
         return group;
     }

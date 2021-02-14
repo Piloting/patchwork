@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Transform;
+import ru.pilot.pathwork.ControlUtils;
 import ru.pilot.pathwork.color.ColorSupplier;
 
 public class RectangleBlock implements Block {
@@ -24,7 +25,8 @@ public class RectangleBlock implements Block {
 
     @Override
     public Node getNode(double width, double height) {
-        return new Rectangle(width, height, paint);
+        Node node = new Rectangle(width, height, paint);
+        return ControlUtils.addColorReplaceEvent(this, node);
     }
 
     @Override
